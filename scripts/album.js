@@ -62,8 +62,6 @@ var setCurrentAlbum = function (album) {
     }
 };
 
-var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
-
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
 };
