@@ -28,6 +28,21 @@ var albumMarconi = {
     ]
 };
 
+var albumExample = {
+    title: 'The Bridge',
+    artist: 'Matthew Mercer',
+    label: 'Sony',
+    year: '1999',
+    albumArtUrl: 'assets/images/album_covers/19.png',
+    songs: [
+        { title: 'Hello, Example?', duration: '3:01' },
+        { title: 'Telephone', duration: '5:01' },
+        { title: 'Telegraph', duration: '4:21'},
+        { title: 'Gramaphone', duration: '6:14' },
+        { title: 'Satellite Radio', duration: '5:15'}
+    ]
+};
+
 var createSongRow = function (songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">'
@@ -39,14 +54,14 @@ var createSongRow = function (songNumber, songName, songLength) {
     return template;
 };
 
+// #1
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
 var setCurrentAlbum = function (album) {
-    // #1
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
- 
     // #2
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
@@ -61,7 +76,22 @@ var setCurrentAlbum = function (album) {
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
     }
 };
- 
+
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    
+    // 1. create array of albums
+    var albums = [albumPicasso, albumMarconi, albumExample];
+    var index = 0;
+    
+    // 2. add event listener to album image
+    albumImage.addEventListener("click", function () {
+        index++;
+        
+        if (index === albums.length) {
+            index = 0;
+        }
+        
+        setCurrentAlbum(albums[index]);
+    });
 };
