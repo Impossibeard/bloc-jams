@@ -185,10 +185,11 @@ var nextSong = function() {
     
     // instead of html, you want to find the play and pause buttons and toggle them and the song number
     
-    $nextSongNumberCell.find(".row-pause-button").toggleClass("hidden");
-    $nextSongNumberCell.find(".song-number").toggleClass("hidden");
-    $lastSongNumberCell.find(".row-pause-button").toggleClass("hidden");
-    $lastSongNumberCell.find(".song-number").toggleClass("hidden");
+    $nextSongNumberCell.find(".row-pause-button").removeClass("hidden");
+    $nextSongNumberCell.find(".song-number").addClass("hidden");
+    $lastSongNumberCell.find(".row-play-button").addClass("hidden");
+    $lastSongNumberCell.find(".row-pause-button").addClass("hidden");
+    $lastSongNumberCell.find(".song-number").removeClass("hidden");
     
     
     
@@ -232,13 +233,30 @@ var previousSong = function() {
     var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
     
-    $previousSongNumberCell.find(".row-pause-button").toggleClass("hidden");
-    $previousSongNumberCell.find(".song-number").toggleClass("hidden");
-    $lastSongNumberCell.find(".row-pause-button").toggleClass("hidden");
-    $lastSongNumberCell.find(".song-number").toggleClass("hidden");
+    $previousSongNumberCell.find(".row-pause-button").removeClass("hidden");
+    $previousSongNumberCell.find(".song-number").addClass("hidden");
+    $lastSongNumberCell.find(".row-play-button").addClass("hidden");
+    $lastSongNumberCell.find(".row-pause-button").addClass("hidden");
+    $lastSongNumberCell.find(".song-number").removeClass("hidden");
     
     
 };
+
+var togglePlayFromPlayerBar = function(){
+    var $currentSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+    
+    if (currentSoundFile.isPaused()){
+        currentSoundFile.play();
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+        
+    } else {
+        currentSoundFile.pause();
+        $('.main-controls .play-pause').html(playerBarPlayButton);
+    }
+    
+    $currentSongNumberCell.find(".row-play-button").toggleClass("hidden");
+    $currentSongNumberCell.find(".row-pause-button").toggleClass("hidden"); 
+}
 
 var playButtonTemplate = '<a class="album-song-button hidden row-play-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button hidden row-pause-button"><span class="ion-pause"></span></a>';
@@ -253,10 +271,12 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playButton = $('.main-controls .play-pause');
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playButton.click(togglePlayFromPlayerBar);
 });
 
